@@ -4,9 +4,12 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
-/* Fill in your own connector here */
-$connector = new FilePrintConnector("php://stdout");
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
+
+/* Fill in your own connector here */
+//$connector = new FilePrintConnector("php://stdout");
+ $connector = new WindowsPrintConnector("SAM");
 /* Information for the receipt */
 $items = array(
     new item("Example item #1", "4.00"),
