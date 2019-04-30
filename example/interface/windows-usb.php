@@ -119,8 +119,8 @@ try {
 	$Sbal="  Balance :";
 
 	$tot=$phpArr['data']['mainData']['total'];
-	$cash=['data']['mainData']['cash'];
-	$bal=['data']['mainData']['balance'];
+	$cash=$phpArr['data']['mainData']['cash'];
+	$bal=$phpArr['data']['mainData']['balance'];
 
 	for($z=0 ; $z <= (35-strlen($tot)) ; $z++){
 		$Stot = $Stot." ";
