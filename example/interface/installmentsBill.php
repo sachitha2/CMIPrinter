@@ -55,12 +55,7 @@ try {
 		$id = "";
 		$dataId = $phpArr['data']['id'][$x];
 		$dataItem = $phpArr['data']['item'][$x];
-		//meka balanna
-		if($x<10){
-			$id .=" $dataId";
-		}else{
-			$id="$dataId";
-		}
+		
 		
 		$qty = $phpArr['data']['QTY'][$x];
 		$price = $phpArr['data']['price'][$x];
@@ -111,38 +106,10 @@ try {
 	}
 	
 	$printer -> setPrintLeftMargin(0);
-	
-	$printer->setJustification(Printer::JUSTIFY_LEFT);
-	$printer->setTextSize(1, 1);
-	$Stot="  Total   :";
-	$Scash="  CASH    :";
-	$Sbal="  Balance :";
-
-	$tot=$phpArr['data']['mainData']['total'];
-	$cash=['data']['mainData']['cash'];
-	$bal=['data']['mainData']['balance'];
-
-	for($z=0 ; $z <= (35-strlen($tot)) ; $z++){
-		$Stot = $Stot." ";
-	}
-	$Stot = $Stot.$tot;
-
-	for($z=0 ; $z <= (35-strlen($cash)) ; $z++){
-		$Scash = $Scash." ";
-	}
-	$Scash = $Scash.$cash;
-
-	for($z=0 ; $z <= (35-strlen($bal)) ; $z++){
-		$Sbal = $Sbal." ";
-	}
-	$Sbal = $Sbal.$bal;
-
-	$printer -> text("\n\n\n$Stot\n");
-	$printer -> text("$Scash\n");
-	$printer -> text("$Sbal\n");
-
 	$printer->setJustification(Printer::JUSTIFY_CENTER);
+		
 	$printer->setTextSize(2, 2);
+	$printer -> text("\n\n\nTotal : 1000\n");
 	$printer -> text("\n\nThank You!\n\n");
 	$printer->setTextSize(1, 1);
 	$date = date("M,d,Y h:i:s P");
