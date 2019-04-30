@@ -5,6 +5,8 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
+date_default_timezone_set("Asia/Kolkata");
+
 /**
  * Install the printer using USB printing support, and the "Generic / Text Only" driver,
  * then share it (you can use a firewall so that it can only be seen locally).
@@ -38,65 +40,62 @@ try {
 	$printer->setJustification(Printer::JUSTIFY_LEFT);
 	$printer->setTextSize(1, 1);
 
-	$Wid = 4;
-	$Witem = 6;
-	$Wqty = 8;
-	$Wprice = 9;
-	$Wtotal = 9;
-	$Wr = 8;
+	$Wid = 7;
+	$Winstallment = 16;
+	$Wddate = 18;
+	$Wrpay = 23;
+	$Wrdate = 18;
 	
 	$printer -> setPrintLeftMargin(0);
-	$printer -> text("  ID  ITEM    QTY    PRICE    TOTAL        R\n");
-	//$printer -> text("AABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABB\n");
-		$dataArrLength = sizeof($phpArr['data']['id']);
-		echo($dataArrLength);
+	$printer -> text("     ID     INSTALLMENT          DUE DATE\n");
+	$printer -> text("       RECEIVED PAYMENT     RECEIVED DATE\n\n");
+	//$printer -> text("0ABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABB\n");
+
+		 $dataArrLength = sizeof($phpArr['data']['id']);
+		 echo($dataArrLength);
+
     for($x = 0;$x < $dataArrLength;$x++){
 		
-		$id = "";
-		$dataId = $phpArr['data']['id'][$x];
-		$dataItem = $phpArr['data']['item'][$x];
-		
-		
-		$qty = $phpArr['data']['QTY'][$x];
-		$price = $phpArr['data']['price'][$x];
-		$total = $phpArr['data']['total'][$x];
-		$r = $phpArr['data']['r'][$x];
+		$id = $phpArr['data']['id'][$x];
+		$installment = $phpArr['data']['installment'][$x];
+		$rPayment = $phpArr['data']['rPayment'][$x];
+		$dueDate = $phpArr['data']['dueDate'][$x];
+		$rDate = $phpArr['data']['rDate'][$x];
 
-		if($id < 10){
-			$id = "  $id";
-		}elseif($id < 100){
-			$id = " $id";
+		$String1 = "";
+		$String2 = "";
+
+		for($y = 1 ; $y <= ($Wid-strlen($id)) ; $y++){
+			$String1 = $String1." ";
 		}
+		$String1 = $String1.$id;
 
-		$printer -> text("$id  $dataItem\n");
+		for($y = 1 ; $y <= ($Winstallment-strlen($installment)) ; $y++){
+			$String1 = $String1." ";
+		}
+		$String1 = $String1.$installment;
+
+		for($y = 1 ; $y <= ($Wddate-strlen($dueDate)) ; $y++){
+			$String1 = $String1." ";
+		}
+		$String1 = $String1.$dueDate;
+
+		for($y = 1 ; $y <= ($Wrpay-strlen($rPayment)) ; $y++){
+			$String2 = $String2." ";
+		}
+		$String2 = $String2.$rPayment;
+
+		for($y = 1 ; $y <= ($Wrdate-strlen($rDate)) ; $y++){
+			$String2 = $String2." ";
+		}
+		$String2 = $String2.$rDate;
+
+		$printer -> text("$String1\n");
+		$printer -> text("$String2\n\n");
 		//$printer -> text("ID  ITEM      QTY      PRICE      TOTAL    R\n");
 		////here //TODO
 		//$printer -> text("              $qty     $price       $total     $r\n");
 
-		$String = "         ";
-		for($y = 1 ; $y <= ($Wqty-strlen($qty)) ; $y++){
-			$String = $String." ";
-		}
-		$String = $String."$qty";
-
-		
-		for($y = 1 ; $y <= ($Wprice-strlen($price)) ; $y++){
-			$String = $String." ";
-		}
-		$String = $String."$price";
-
-		
-		for($y = 1 ; $y <= ($Wtotal-strlen($total)) ; $y++){
-			$String = $String." ";
-		}
-		$String = $String."$total";
-
-		for($y = 1 ; $y <= ($Wprice-strlen($r)) ; $y++){
-				$String = $String." ";
-			}
-		$String = $String."$r";
-
-		$printer -> text("$String\n");
 
 		// for($x = 1 ; $x <= ($Wprice-strlen($price)) ; $x++){
 		// 	$String += "";
@@ -105,14 +104,39 @@ try {
 		//$printer -> text("          $qty     $price       $total     $r\n");
 	}
 	
-	$printer -> setPrintLeftMargin(0);
+	$SinsTot = "  Installment Total :";
+	$SrTot = "  Recieved Total    :";
+	$StoPay = "  To be paid        :";
+
+	$insTot=$phpArr['data']['mainData']['insTot'];
+	$rTot=$phpArr['data']['mainData']['rAmount'];
+	$toPay=$phpArr['data']['mainData']['dueAmount'];
+
+	for($z=0 ; $z <= (24-strlen($insTot)) ; $z++){
+		$SinsTot = $SinsTot." ";
+	}
+	$SinsTot = $SinsTot.$insTot;
+
+	for($z=0 ; $z <= (24-strlen($rTot)) ; $z++){
+		$SrTot = $SrTot." ";
+	}
+	$SrTot = $SrTot.$rTot;
+
+	for($z=0 ; $z <= (24-strlen($toPay)) ; $z++){
+		$StoPay = $StoPay." ";
+	}
+	$StoPay = $StoPay.$toPay;
+
+	$printer -> text("\n\n  --------------------------------------------\n");
+	$printer -> text("$SinsTot\n");
+	$printer -> text("$SrTot\n");
+	$printer -> text("$StoPay\n");
+
 	$printer->setJustification(Printer::JUSTIFY_CENTER);
-		
 	$printer->setTextSize(2, 2);
-	$printer -> text("\n\n\nTotal : 1000\n");
 	$printer -> text("\n\nThank You!\n\n");
 	$printer->setTextSize(1, 1);
-	$date = date("M,d,Y h:i:s P");
+	$date = date("M,d,Y h:i:s");
 	$printer -> text("$date\n\n");
 	$printer->text("http://infinisolutionslk.com\n");
 	$printer->text("077-1466460\n");
@@ -121,23 +145,25 @@ try {
     /* Close printer */
     $printer -> close();
 	}else{
-		$arr['data']['id'][0] = 10;
-		$arr['data']['id'][1] = 10;
+
+		//TODO
+		// $arr['data']['id'][0] = 10;
+		// $arr['data']['id'][1] = 10;
 		
-		$arr['data']['item'][0] = "Soap";
-		$arr['data']['item'][1] = "valnila";
+		// $arr['data']['item'][0] = "Soap";
+		// $arr['data']['item'][1] = "valnila";
 		
-		$arr['data']['QTY'][0] = 100;
-		$arr['data']['QTY'][1] = 250;
+		// $arr['data']['QTY'][0] = 100;
+		// $arr['data']['QTY'][1] = 250;
 		
-		print_r($arr);
-		echo("<br>");
-		$json = json_encode($arr);
-		echo($json);
+		// print_r($arr);
+		// echo("<br>");
+		// $json = json_encode($arr);
+		// echo($json);
 		
 		
 		
-		echo("Data Stream not found");
+		// echo("Data Stream not found");
 	}
 } catch (Exception $e) {
     echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";

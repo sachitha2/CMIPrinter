@@ -5,6 +5,8 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
+date_default_timezone_set("Asia/Kolkata");
+
 /**
  * Install the printer using USB printing support, and the "Generic / Text Only" driver,
  * then share it (you can use a firewall so that it can only be seen locally).
@@ -122,17 +124,17 @@ try {
 	$cash=$phpArr['data']['mainData']['cash'];
 	$bal=$phpArr['data']['mainData']['balance'];
 
-	for($z=0 ; $z <= (35-strlen($tot)) ; $z++){
+	for($z=0 ; $z <= (34-strlen($tot)) ; $z++){
 		$Stot = $Stot." ";
 	}
 	$Stot = $Stot.$tot;
 
-	for($z=0 ; $z <= (35-strlen($cash)) ; $z++){
+	for($z=0 ; $z <= (34-strlen($cash)) ; $z++){
 		$Scash = $Scash." ";
 	}
 	$Scash = $Scash.$cash;
 
-	for($z=0 ; $z <= (35-strlen($bal)) ; $z++){
+	for($z=0 ; $z <= (34-strlen($bal)) ; $z++){
 		$Sbal = $Sbal." ";
 	}
 	$Sbal = $Sbal.$bal;
@@ -145,7 +147,7 @@ try {
 	$printer->setTextSize(2, 2);
 	$printer -> text("\n\nThank You!\n\n");
 	$printer->setTextSize(1, 1);
-	$date = date("M,d,Y h:i:s P");
+	$date = date("M,d,Y h:i:s");
 	$printer -> text("$date\n\n");
 	$printer->text("http://infinisolutionslk.com\n");
 	$printer->text("077-1466460\n");
