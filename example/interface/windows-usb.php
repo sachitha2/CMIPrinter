@@ -25,7 +25,7 @@ try {
 		print_r($phpArr);
     // Enter the share name for your USB printer here
     // $connector = null;
-    $connector = new WindowsPrintConnector("SAM");
+    $connector = new WindowsPrintConnector("sam");
 
     /* Print a "Hello world" receipt" */
     $printer = new Printer($connector);
@@ -37,9 +37,17 @@ try {
     $printer -> text("CMI Pvt Ltd\n\n");
 	$printer->setJustification(Printer::JUSTIFY_LEFT);
 	$printer->setTextSize(1, 1);
+
+	$Wid = 4;
+	$Witem = 6;
+	$Wqty = 8;
+	$Wprice = 9;
+	$Wtotal = 9;
+	$Wr = 8;
 	
 	$printer -> setPrintLeftMargin(0);
-	$printer -> text("ID  ITEM      QTY      PRICE      TOTAL    R\n");
+	$printer -> text("  ID  ITEM    QTY    PRICE    TOTAL        R\n");
+	//$printer -> text("AABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABB\n");
 		$dataArrLength = sizeof($phpArr['data']['id']);
 		echo($dataArrLength);
     for($x = 0;$x < $dataArrLength;$x++){
@@ -47,6 +55,7 @@ try {
 		$id = "";
 		$dataId = $phpArr['data']['id'][$x];
 		$dataItem = $phpArr['data']['item'][$x];
+		//meka balanna
 		if($x<10){
 			$id .=" $dataId";
 		}else{
@@ -57,11 +66,48 @@ try {
 		$price = $phpArr['data']['price'][$x];
 		$total = $phpArr['data']['total'][$x];
 		$r = $phpArr['data']['r'][$x];
-		if($qty < 10){
-			$qty = "  $qty";
+
+		if($id < 10){
+			$id = "  $id";
+		}elseif($id < 100){
+			$id = " $id";
 		}
+
 		$printer -> text("$id  $dataItem\n");
-		$printer -> text("              $qty      $price        $total      $r\n");
+		//$printer -> text("ID  ITEM      QTY      PRICE      TOTAL    R\n");
+		////here //TODO
+		//$printer -> text("              $qty     $price       $total     $r\n");
+
+		$String = "         ";
+		for($y = 1 ; $y <= ($Wqty-strlen($qty)) ; $y++){
+			$String = $String." ";
+		}
+		$String = $String."$qty";
+
+		
+		for($y = 1 ; $y <= ($Wprice-strlen($price)) ; $y++){
+			$String = $String." ";
+		}
+		$String = $String."$price";
+
+		
+		for($y = 1 ; $y <= ($Wtotal-strlen($total)) ; $y++){
+			$String = $String." ";
+		}
+		$String = $String."$total";
+
+		for($y = 1 ; $y <= ($Wprice-strlen($r)) ; $y++){
+				$String = $String." ";
+			}
+		$String = $String."$r";
+
+		$printer -> text("$String\n");
+
+		// for($x = 1 ; $x <= ($Wprice-strlen($price)) ; $x++){
+		// 	$String += "";
+		// }
+
+		//$printer -> text("          $qty     $price       $total     $r\n");
 	}
 	
 	$printer -> setPrintLeftMargin(0);

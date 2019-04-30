@@ -9,7 +9,7 @@ use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
 /* Fill in your own connector here */
 //$connector = new FilePrintConnector("php://stdout");
- $connector = new WindowsPrintConnector("SAM");
+ $connector = new WindowsPrintConnector("sam");
 /* Information for the receipt */
 $items = array(
     new item("Example item #1", "4.00"),
