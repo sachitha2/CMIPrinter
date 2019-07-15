@@ -1,4 +1,9 @@
 <?php
+header('Access-Control-Allow-Origin: *'); 
+?>
+
+
+<?php
 /* Change to the correct path if you copy this example! */
 require __DIR__ . '/../../autoload.php';
 use Mike42\Escpos\Printer;
