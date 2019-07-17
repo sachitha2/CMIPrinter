@@ -1,5 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *'); 
+$rT = 0;
 ?>
 
 
@@ -42,6 +43,25 @@ try {
 	$printer->setJustification(Printer::JUSTIFY_CENTER);
 	
     $printer -> text("CMI Pvt Ltd\n\n");
+	
+    $printer->setTextSize(1, 1);
+		
+	$printer -> text("5TH Mile Post Rajanganaya \n");
+	$printer -> text("TEL : 0777 59 79 29 / 0711 59 79 29\n");
+	
+	$date = date("M,d,Y h:i:s");
+	$printer -> text("$date\n");
+	$printer->text("Invoice No - {$phpArr['data']['invoiceN']}\n");
+	$printer -> textRaw("________________________________________________\n");
+	if($phpArr['data']['cid'] != "0"){
+		
+		$printer->text("Credit Bill\n");
+		$printer->text("CUSTOMER - {$phpArr['data']['customerName']}\n");
+		$printer->text("CID - {$phpArr['data']['cid']}\n");
+		$printer->text("TEL - {$phpArr['data']['tp']}\n");
+		$printer -> textRaw("________________________________________________\n");
+	}
+	
 	$printer->setJustification(Printer::JUSTIFY_LEFT);
 	$printer->setTextSize(1, 1);
 
@@ -54,6 +74,7 @@ try {
 	
 	$printer -> setPrintLeftMargin(0);
 	$printer -> text("  ID  ITEM    QTY    PRICE    TOTAL        R\n");
+	$printer -> textRaw("________________________________________________\n");
 	//$printer -> text("AABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABB\n");
 		$dataArrLength = sizeof($phpArr['data']['id']);
 		echo($dataArrLength);
@@ -72,8 +93,8 @@ try {
 		$qty = $phpArr['data']['QTY'][$x];
 		$price = $phpArr['data']['price'][$x];
 		$total = $phpArr['data']['total'][$x];
-		$r = $phpArr['data']['r'][$x];
-
+		$r = $phpArr['data']['r'][$x] * $qty;
+		$rT += $r;
 		if($id < 10){
 			$id = "  $id";
 		}elseif($id < 100){
@@ -121,6 +142,7 @@ try {
 	
 	$printer->setJustification(Printer::JUSTIFY_LEFT);
 	$printer->setTextSize(1, 1);
+	$printer -> textRaw("________________________________________________\n");
 	$Stot="  Total   :";
 	$Scash="  CASH    :";
 	$Sbal="  Balance :";
@@ -149,12 +171,19 @@ try {
 	$printer -> text("$Sbal\n");
 
 	$printer->setJustification(Printer::JUSTIFY_CENTER);
+	if($phpArr['data']['cid'] != "0"){
+		$iTotal = 3*$phpArr['data']['i'];
+		$printer->text("\nInstalment - 3X{$phpArr['data']['i']}=$iTotal\n");
+	}	
+		
 	$printer->setTextSize(2, 2);
+		
+	$printer -> text("\nYour Profit $rT");
+		
 	$printer -> text("\n\nThank You!\n\n");
 	$printer->setTextSize(1, 1);
-	$date = date("M,d,Y h:i:s");
-	$printer -> text("$date\n\n");
-	$printer->text("http://infinisolutionslk.com\n");
+	
+	$printer->text("https://infinisolutionslk.com\n");
 	$printer->text("077-1466460\n");
     $printer -> cut();
     

@@ -42,6 +42,23 @@ try {
 	$printer->setJustification(Printer::JUSTIFY_CENTER);
 	
     $printer -> text("CMI Pvt Ltd\n\n");
+	$printer->setTextSize(1, 1);
+		
+	$printer -> text("5TH Mile Post Rajanganaya \n");
+	$printer -> text("TEL : 0777 59 79 29 / 0711 59 79 29\n");
+	
+	$date = date("M,d,Y h:i:s");
+	$printer -> text("$date\n");
+	$printer -> textRaw("________________________________________________\n");
+		
+	
+		
+		$printer->text("Instalments\n");
+		$printer->text("CUSTOMER - {$phpArr['data']['customerName']}\n");
+		$printer->text("CID - {$phpArr['data']['cid']}\n");
+		$printer->text("TEL - {$phpArr['data']['tp']}\n");
+		$printer -> textRaw("________________________________________________\n");
+	
 	$printer->setJustification(Printer::JUSTIFY_LEFT);
 	$printer->setTextSize(1, 1);
 
@@ -53,7 +70,8 @@ try {
 	
 	$printer -> setPrintLeftMargin(0);
 	$printer -> text("     ID     INSTALLMENT          DUE DATE\n");
-	$printer -> text("       RECEIVED PAYMENT     RECEIVED DATE\n\n");
+	$printer -> text("       RECEIVED PAYMENT     RECEIVED DATE\n");
+	$printer -> textRaw("________________________________________________\n");
 	//$printer -> text("0ABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABBAABB\n");
 
 		 $dataArrLength = sizeof($phpArr['data']['id']);
@@ -97,16 +115,6 @@ try {
 
 		$printer -> text("$String1\n");
 		$printer -> text("$String2\n\n");
-		//$printer -> text("ID  ITEM      QTY      PRICE      TOTAL    R\n");
-		////here //TODO
-		//$printer -> text("              $qty     $price       $total     $r\n");
-
-
-		// for($x = 1 ; $x <= ($Wprice-strlen($price)) ; $x++){
-		// 	$String += "";
-		// }
-
-		//$printer -> text("          $qty     $price       $total     $r\n");
 	}
 	
 	$SinsTot = "  Installment Total :";
@@ -151,24 +159,10 @@ try {
     $printer -> close();
 	}else{
 
-		//TODO
-		// $arr['data']['id'][0] = 10;
-		// $arr['data']['id'][1] = 10;
-		
-		// $arr['data']['item'][0] = "Soap";
-		// $arr['data']['item'][1] = "valnila";
-		
-		// $arr['data']['QTY'][0] = 100;
-		// $arr['data']['QTY'][1] = 250;
-		
-		// print_r($arr);
-		// echo("<br>");
-		// $json = json_encode($arr);
-		// echo($json);
 		
 		
 		
-		// echo("Data Stream not found");
+		 echo("Data Stream not found");
 	}
 } catch (Exception $e) {
     echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
